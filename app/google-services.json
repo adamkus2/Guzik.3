@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "683458498065",
+    "project_id": "guzik-2",
+    "storage_bucket": "guzik-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683458498065:android:b58a738d51680c520cebb0",
+        "android_client_info": {
+          "package_name": "com.example.guzik2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683458498065-0mt17n7rid4096q3gtkoc9t8fiibjmdk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLtrHJeaKwerRDSuI2_yTBdFF9QI2iCWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683458498065-0mt17n7rid4096q3gtkoc9t8fiibjmdk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

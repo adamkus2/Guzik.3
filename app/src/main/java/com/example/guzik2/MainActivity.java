@@ -10,23 +10,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
-    private  Button btnZielony, btnCzerwony, btnWynik;
+    private  Button btnZielony, btnCzerwony, btnWynik, btnNiebieski;
     private TextView txtV;
     private FirebaseDatabase database;
+
 
 
     @Override
@@ -37,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
         btnZielony = findViewById(R.id.buttonZielony);
         btnCzerwony = findViewById(R.id.buttonCzerwony);
         btnWynik = findViewById(R.id.buttonWynik);
+        btnNiebieski = findViewById(R.id.buttonNiebieski);
         txtV = findViewById(R.id.textView);
 
         database = FirebaseDatabase.getInstance("https://guzik-2-default-rtdb.europe-west1.firebasedatabase.app/");
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("zdzisiek@o2.pl","123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("zdzisiek@o2.pl","123456").addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
@@ -51,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if (currentUser != null) {
+            txtV.setText("Zalogowany jako " + database.getReference("kolor/"+FirebaseAuth.getInstance().getCurrentUser().getUid()));
+
 
         database.getReference("kolor/"+FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 database.getReference("kolor/"+FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new Kolor(R.color.zielony));
 
 
-
             }
         });
         btnCzerwony.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +100,22 @@ public class MainActivity extends AppCompatActivity {
 
                 database.getReference("kolor/"+FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new Kolor(R.color.czerwony));
 
-
             }
         });
+            btnNiebieski.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //btnWynik.setBackgroundResource(R.color.niebieski);
 
+                    database.getReference("kolor/"+FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new Kolor(R.color.niebieski));
+
+                }
+            });
+
+    } else {
+        txtV.setText("Niezalogowany");
+            FirebaseAuth.getInstance().signOut();
+
+    }
     }
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private  Button btnZielony, btnCzerwony, btnWynik, btnNiebieski;
     private TextView txtV;
     private FirebaseDatabase database;
-
+    private MediaPlayer music;
 
 
     @Override
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         btnWynik = findViewById(R.id.buttonWynik);
         btnNiebieski = findViewById(R.id.buttonNiebieski);
         txtV = findViewById(R.id.textView);
+
+        music = MediaPlayer.create(MainActivity.this,R.raw.amisietunic);
 
         database = FirebaseDatabase.getInstance("https://guzik-2-default-rtdb.europe-west1.firebasedatabase.app/");
 
@@ -69,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
         database.getReference("kolor/"+FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists())
+                if (snapshot.exists()) {
                     btnWynik.setBackgroundResource(snapshot.getValue(Kolor.class).getWartoscHEX());
+                    if ( snapshot.getValue(Kolor.class).getWartoscHEX() == R.color.czerwony)
+                        music.start();
+                }
                 else
                     btnWynik.setBackgroundResource(0);
             }

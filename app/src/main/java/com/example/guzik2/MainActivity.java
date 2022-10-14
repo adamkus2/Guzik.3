@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtV;
     private FirebaseDatabase database;
     private MediaPlayer music;
+    private MediaPlayer musik;
+    private MediaPlayer music2;
 
 
     @Override
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         txtV = findViewById(R.id.textView);
 
         music = MediaPlayer.create(MainActivity.this,R.raw.amisietunic);
+        musik = MediaPlayer.create(MainActivity.this,R.raw.wyjdzmido);
+        music2 = MediaPlayer.create(MainActivity.this,R.raw.zarcik);
 
         database = FirebaseDatabase.getInstance("https://guzik-2-default-rtdb.europe-west1.firebasedatabase.app/");
 
@@ -76,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
                     btnWynik.setBackgroundResource(snapshot.getValue(Kolor.class).getWartoscHEX());
                     if ( snapshot.getValue(Kolor.class).getWartoscHEX() == R.color.czerwony)
                         music.start();
+                    if ( snapshot.getValue(Kolor.class).getWartoscHEX() == R.color.zielony)
+                        musik.start();
+                    if ( snapshot.getValue(Kolor.class).getWartoscHEX() == R.color.niebieski)
+                        music2.start();
                 }
                 else
                     btnWynik.setBackgroundResource(0);
